@@ -1,39 +1,41 @@
 [build-system]
-requires = ["poetry_core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
 
-[tool]
-[tool.poetry]
+[project]
 name = "apns2"
-version = "0.7.1"
-description = "A python library for interacting with the Apple Push Notification Service via HTTP/2 protocol"
-readme = 'README.md'
-authors = [
-    "Sergey Petrov <me@pr0ger.prg>"
-]
+version = "0.8.0"
+description = "Apple Push Notification Service client over HTTP/2"
+readme = "README.md"
 license = "MIT"
-
-classifiers = [
-    "Development Status :: 4 - Beta",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Topic :: Software Development :: Libraries"
+requires-python = ">=3.11"
+authors = [{ name = "Sergey Petrov", email = "me@pr0ger.prg" }]
+dependencies = [
+    "cryptography>=43",
+    "hyper>=0.7",
+    "pyjwt[crypto]>=2.10",
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.7"
-cryptography = ">=1.7.2"
-hyper = ">=0.7"
-pyjwt = ">=2.0.0"
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "freezegun>=1.5",
+]
 
-[tool.poetry.dev-dependencies]
-pytest = "*"
-freezegun = "*"
+[tool.hatch.build.targets.wheel]
+packages = ["apns2"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/apns2",
+    "/test",
+    "/LICENSE",
+    "/README.md",
+    "/MANIFEST.in",
+]
 
 [tool.mypy]
-python_version = "3.7"
+python_version = "3.11"
 strict = true
 
 [tool.pylint.design]
@@ -46,15 +48,5 @@ max-line-length = 120
 [tool.pylint.'messages control']
 disable = "missing-docstring, too-few-public-methods, locally-disabled, invalid-name"
 
-[tool.tox]
-legacy_tox_ini = """
-[tox]
-envlist = py37, py38, py39
-isolated_build = True
-
-[testenv]
-whitelist_externals = poetry
-commands =
-    poetry install -v
-    poetry run pytest {posargs}
-"""
+[tool.pytest.ini_options]
+testpaths = ["test"]

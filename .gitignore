@@ -44,6 +44,8 @@ coverage.xml
 
 # Virtualenv
 venv/
+.venv/
+.idea
 
-# Poetry
+# Poetry (legacy; проект переведён на uv)
 poetry.lock

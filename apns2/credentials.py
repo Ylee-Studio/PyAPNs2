@@ -3,6 +3,8 @@ from typing import Optional, Tuple, TYPE_CHECKING
 
 import jwt
 
+from . import compat as _collections_shim  # noqa: F401 — before `hyper` on Py>=3.10
+
 from hyper import HTTP20Connection  # type: ignore
 from hyper.tls import init_context  # type: ignore
 
